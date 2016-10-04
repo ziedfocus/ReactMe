@@ -1,0 +1,57 @@
+##### Restore User's account #############
+INSERT_UPDATE Employee;UID[unique=true];password
+;hmcmanager;hmcmanager;
+;cmsmanager;cmsmanager;
+;admin;nimda;
+################## Solr Config ##################
+$serverConfigName=intersportSolrServerConfig
+$facetSearchConfigName=intersport_FrIndex
+INSERT_UPDATE SolrServerConfig;name[unique=true];mode(code);embeddedMaster
+;$serverConfigName;standalone;false;
+
+
+REMOVE SolrEndpointUrl; solrServerConfig(name)[unique = true]; url[unique = true]
+; $serverConfigName ;http://localhost:8983/solr
+; $serverConfigName ;http://10.1.15.21:8983/solr
+; $serverConfigName ;http://10.1.15.22:8983/solr
+; $serverConfigName ;http://10.1.15.23:8983/solr
+
+INSERT_UPDATE SolrEndpointUrl;solrServerConfig(name)[unique=true];url[unique=true];master[unique=true,default=false]
+;$serverConfigName;http://10.1.15.12:8983/solr;true
+
+INSERT_UPDATE SolrFacetSearchConfig;name[unique=true];solrServerConfig(name)
+;$facetSearchConfigName;$serverConfigName
+
+
+##### Import Gigya Configuration for intersport.fr website #############
+INSERT_UPDATE GigyaConfiguration;ConfigKey[unique=true];ConfigValue;cmsSite(uid)[unique=true];
+;ConfigKey;ConfigValue;INTERSPORT
+;API_KEY;3_de_Bve0MU1CBd68a3HFbfaAttkpW7Gi2d82iz8kpFtvO6xQCL8GpXPvnXt2cBwgO;INTERSPORT
+;CONNECT_WITHOUT_LOGIN_BEHAVIOUR;alwaysLogin;INTERSPORT
+;HTTPS_PORT;9002;INTERSPORT
+;LOGIN_VISIBLE;true;INTERSPORT
+;PROVIDERS;facebook,twitter,googleplus,linkedin,yahoo,messenger,myspace,aol,foursquare,orkut,vkontakte,renren,QQ,Sina,kaixin;INTERSPORT
+;SECRET_KEY;68vqQbfW2dmAxK7TjDk1sKi7n3CbYQpo0skK5NK3Bls=;INTERSPORT
+;SHOW_ANALYTICS;false;INTERSPORT
+;SITE_NAME;www.intersport.fr;INTERSPORT
+;categoryID;INTERSPORT;INTERSPORT
+
+
+$facetSearchConfigName=nakamuraIndex
+INSERT_UPDATE SolrFacetSearchConfig;name[unique=true];solrServerConfig(name)
+;$facetSearchConfigName;$serverConfigName
+
+$facetSearchConfigName=intersportIndex
+INSERT_UPDATE SolrFacetSearchConfig;name[unique=true];solrServerConfig(name)
+;$facetSearchConfigName;$serverConfigName
+
+$facetSearchConfigName=clickandcollectIndex
+INSERT_UPDATE SolrFacetSearchConfig;name[unique=true];solrServerConfig(name)
+
+$facetSearchConfigName=sunnIndex
+INSERT_UPDATE SolrFacetSearchConfig;name[unique=true];solrServerConfig(name)
+;$facetSearchConfigName;$serverConfigName
+
+$facetSearchConfigName=blackstoreIndex
+INSERT_UPDATE SolrFacetSearchConfig;name[unique=true];solrServerConfig(name)
+;$facetSearchConfigName;$serverConfigName
